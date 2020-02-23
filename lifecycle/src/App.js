@@ -1,6 +1,9 @@
 import React from "react";
 import Form from "./components/Form";
 import ToDoList from "./components/TodoList";
+import React, { Component } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import logo from './logo.svg';
 import "./App.css";
 
@@ -20,7 +23,7 @@ class App extends React.Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-
+    notify = () => toast("Wow so easy !");
     this.setState(prevState => {
       return {
         toDoList: [...prevState.toDoList, this.state.toDoInput]
@@ -49,6 +52,7 @@ class App extends React.Component {
             handleClick={this.handleClick}
           />
         </div>
+        <ToastContainer {this.notify} />
       </div>
     );
   }
