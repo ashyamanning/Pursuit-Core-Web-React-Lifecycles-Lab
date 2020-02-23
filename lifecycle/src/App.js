@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import Form from "./components/Form";
 import ToDoList from "./components/TodoList";
 import React, { Component } from "react";
@@ -8,34 +8,38 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 class App extends React.Component {
-  state = { toDoInput: "", toDoList: [] };
+  state = { toDoInput: "", toDoList: [], action: "" };
 
   handleClick = e => {
     e.preventDefault();
 
     let x = e.target.id;
     this.setState(prevState => {
-      prevState.toDoList.splice(x, 1);
+      let deletedItem = prevState.toDoList.splice(x, 1);
+      this.notify("Todo deleted: " + deletedItem)
       return {
         toDoList: prevState.toDoList
       };
     });
   };
+  notify = (task) => toast(task);
   handleSubmit = e => {
     e.preventDefault();
-    notify = () => toast("Wow so easy !");
     this.setState(prevState => {
       return {
         toDoList: [...prevState.toDoList, this.state.toDoInput]
       };
     });
+    this.notify("New todo created: " + this.state.toDoInput)
     e.currentTarget.elements[0].value = "";
+    // this.setState({action: "New todo created"})
   };
-
+  
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  componentDidMount() {}
+  componentDidMount() {
+  }
   render() {
     console.log(this.state.toDoList);
     console.log(this.state.toDoInput);
@@ -52,7 +56,10 @@ class App extends React.Component {
             handleClick={this.handleClick}
           />
         </div>
-        <ToastContainer {this.notify} />
+        <div>
+        <ToastContainer />
+        {this.notify}
+        </div>
       </div>
     );
   }
